@@ -7,7 +7,7 @@
     "postinstall": "npx cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dll.js",
     "start": "npx pm2-runtime ecosystem.config.js",
     "start:main": "npx cross-env NODE_ENV=development electron .",
-    "start:renderer": "npx cross-env NODE_ENV=development webpack serve --config ./configs/webpack.config.renderer.dev.js",
+    "start:renderer": "NODE_ENV=development npx webpack serve --config ./configs/webpack.config.renderer.dev.js",
     "lint": "npx eslint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

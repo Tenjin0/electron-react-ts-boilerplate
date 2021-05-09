@@ -6,7 +6,6 @@ import { store } from './store'
 
 import App from './App'
 
-import './index.css'
 import {} from './store/actions'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function

@@ -6,21 +6,13 @@ const baseConfig =  {
   module: {
     rules: [
       {
-        test: /\.(less)$/,
-        exclude: /\.module\.(less)$/,
+        test: /\.css?$/,
+        exclude: /\.module\.(css)$/,
         use: [{
           loader: 'style-loader',
         },
         {
           loader: 'css-loader',
-        },
-        {
-          loader: 'less-loader',
-          options: {
-            lessOptions: {
-              javascriptEnabled: true,
-            }
-          }
         }],
         sideEffects: true,
       },
@@ -107,7 +99,7 @@ const baseConfig =  {
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    extensions: ['.js', '.ts', '.tsx', '.css', '.less'],
+    extensions: ['.js', '.ts', '.tsx', '.css'],
     modules: [path.join(__dirname, '../../src'), 'node_modules'],
   },
 

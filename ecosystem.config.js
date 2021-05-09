@@ -1,24 +1,22 @@
 module.exports = {
-  apps : [{
-		name: "electron main",
-		interpreter: 'npm',
-		script: "src/main/index.js",
-		"interpreter_args": [
-      "run",
-      "start:main"
-    ],
-    watch: ['src/main'],
-		autorestart: false
-  },
-	{
-		name: "electron renderer",
-		interpreter: 'npm',
-		script: "src/renderer/index.js",
-		"interpreter_args": [
-      "run",
-      "start:renderer"
-    ],
-    watch: [],
-		autorestart: false
-  }]
+  apps : [
+		{
+			name: "electron renderer",
+			interpreter: 'electron',
+			script: ".",
+			watch: [],
+			autorestart: false
+		},
+		{
+			name: "electron renderer",
+			interpreter: 'webpack',
+			script: "./configs/webpack.config.renderer.dev.js",
+			"interpreter_args": [
+				"serve",
+				"--config"
+			],
+			watch: [],
+			autorestart: false
+		}
+	]
 };

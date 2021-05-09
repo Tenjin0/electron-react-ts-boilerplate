@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === "development") {
   // renderer process
   // Dynamically insert the bundled app script in the renderer process
   const port = process.env.PORT || 1212;
-  sources.push(`http://localhost:${port}/dist/main.js`);
+  sources.push(`http://localhost:${port}/dist/renderer.js`);
 } else {
   sources.push("../dist/renderer.prod.js");
 }
