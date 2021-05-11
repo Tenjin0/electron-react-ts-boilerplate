@@ -1,12 +1,18 @@
+
+	// {
+	// 	name: "electron main",
+	// 	interpreter: 'electron',
+	// 	script: ".",
+	// 	watch: [],
+	// 	env: {
+	// 		"NODE_ENV": "development",
+	// 	},
+	// 	autorestart: false
+	// }
+
 module.exports = {
   apps : [
-		{
-			name: "electron renderer",
-			interpreter: 'electron',
-			script: ".",
-			watch: [],
-			autorestart: false
-		},
+
 		{
 			name: "electron renderer",
 			interpreter: 'webpack',
@@ -15,6 +21,10 @@ module.exports = {
 				"serve",
 				"--config"
 			],
+			env: {
+				"NODE_ENV": "development",
+			},
+			wait_ready: true,
 			watch: [],
 			autorestart: false
 		}

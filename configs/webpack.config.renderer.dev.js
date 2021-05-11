@@ -3,10 +3,11 @@ const fs = require('fs')
 const webpack = require('webpack')
 const chalk = require('chalk')
 const { merge } = require('webpack-merge')
-const { spawn, execSync } = require('child_process')
+const { execSync } = require('child_process')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
 const baseConfig = require('./webpack.config.base')
+const startMain = require('../scripts/main')
 
 const port = process.env.PORT || 1212
 const publicPath = `http://localhost:${port}/dist`;
@@ -112,6 +113,11 @@ const devConfig = merge(baseConfig, {
 		// 		})
 		// 	}
     // },
+		after () {
+			if (process.env.START_MAIN) {
+				startMain()
+			}
+		}
   },
 });
 

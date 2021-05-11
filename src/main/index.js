@@ -2,27 +2,16 @@ const path = require('path')
 const url = require('url')
 const { app, BrowserWindow, dialog, ipcMain } = require('electron')
 const log = require("electron-log")
+const pm2 = require('pm2');
 
 let mainWindow = null
 
-let conf = null
-let wpt = null
-let socket = null
-
-try {
-	require('electron-reloader')(module,
-		{
-			watchRenderer: false
-		});
-} catch(err) {
-	log.error(err)
-}
+let pm2Connected = false
 
 if (process.env.NODE_ENV === 'production') {
 	const sourceMapSupport = require('source-map-support')
 	sourceMapSupport.install()
 }
-
 
 const createWindow = async () => {
 
@@ -72,9 +61,18 @@ const createWindow = async () => {
 		}
 
 	})
+	process.on('SIGINT', function() {
+
+
+		mainWindow = null
+ 	});
+
 
 	mainWindow.on('closed', () => {
-		mainWindow = null
+
+		if (process.env.NODE_ENV === "development" && pm2Connected) {
+			pm2.delete('all')
+		}
 	})
 }
 
@@ -86,23 +84,28 @@ app.on('window-all-closed', () => {
 	}
 })
 
-app.whenReady().then(createWindow).catch(log.error)
+app.whenReady()
+.then(() => {
+	return new Promise((resolve, reject) => {
+		if (process.env.NODE_ENV === "development") {
+			pm2.connect(true, (err) => {
+				if (err) {
+					return reject(err)
+				}
+				pm2Connected = true
+				resolve()
+			})
+		}
+		else {
+			resolve()
+		}
+	})
+
+})
+.then(createWindow).catch(log.error)
 
 app.on('activate', () => {
 	// On macOS it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	if (mainWindow === null) createWindow()
-})
-
-
-process.on("SIGINT", () => {
-	console.log("SIGINT")
-	if (socket) {
-		socket.close()
-	}
-	if (wpt) {
-		wpt.kill("SIGINT")
-	}
-
-	process.exit(0)
 })

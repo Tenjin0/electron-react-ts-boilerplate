@@ -5,7 +5,7 @@
   "main": "src/main/index.js",
   "scripts": {
     "postinstall": "npx cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dll.js",
-    "start": "npx pm2-runtime ecosystem.config.js",
+    "start:dev": "NODE_ENV=development START_MAIN=true node scripts/renderer.js",
     "start:main": "npx cross-env NODE_ENV=development electron .",
     "start:renderer": "NODE_ENV=development npx webpack serve --config ./configs/webpack.config.renderer.dev.js",
     "lint": "npx eslint",
