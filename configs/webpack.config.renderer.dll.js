@@ -9,8 +9,6 @@ const { dependencies } = require('../package.json')
 
 const dist = path.join(__dirname, '../dll');
 
-
-
 // if (!(fs.existsSync(dllDir) && fs.existsSync(manifest))) {
 //   console.log(
 //     chalk.black.bgYellow.bold(
@@ -44,7 +42,7 @@ const dllConfig =  merge(baseConfig, {
     new webpack.LoaderOptionsPlugin({
       debug: true,
       options: {
-        context: path.join(__dirname, '../../src'),
+        context: path.join(__dirname, '../src'),
         output: {
           path: path.join(__dirname, '../dll'),
         },

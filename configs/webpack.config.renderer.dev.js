@@ -91,28 +91,6 @@ const devConfig = merge(baseConfig, {
       verbose: true,
       disableDotRule: false,
     },
-    // before(app, server) {
-    //   console.log('Starting Main Process...', Boolean(process.env.START_MAIN));
-		// 	if (process.env.START_MAIN) {
-		// 		mainProcess = spawn('electron', ['.'], {
-    //       env: process.env,
-    //       stdio: 'inherit',
-		// 			stderr: "inherit"
-    //     })
-		// 		.on('close', (code) => () => {
-		// 			console.log("close")
-		// 		})
-		// 		.on('error', (spawnError) => {
-		// 			console.log("ERROR", spawnError)
-		// 			// app.close()
-		// 			// app.exit(1)
-		// 			mainProcess = null
-		// 		})
-		// 		.on('message', (message) =>  {
-		// 			console.log(message)
-		// 		})
-		// 	}
-    // },
 		after () {
 			if (process.env.START_MAIN) {
 				startMain()
@@ -120,5 +98,9 @@ const devConfig = merge(baseConfig, {
 		}
   },
 });
+
+devConfig.module.rules[0].use.unshift({
+	loader: 'style-loader',
+})
 
 module.exports = devConfig

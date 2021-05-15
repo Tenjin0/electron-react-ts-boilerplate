@@ -8,9 +8,7 @@ const baseConfig =  {
       {
         test: /\.css?$/,
         exclude: /\.module\.(css)$/,
-        use: [{
-          loader: 'style-loader',
-        },
+        use: [
         {
           loader: 'css-loader',
         }],
@@ -100,7 +98,7 @@ const baseConfig =  {
    */
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.css'],
-    modules: [path.join(__dirname, '../../src'), 'node_modules'],
+    modules: [path.join(__dirname, '../src'), 'node_modules'],
   },
 
   plugins: [],

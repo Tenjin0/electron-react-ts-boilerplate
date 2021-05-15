@@ -15,15 +15,6 @@ if (process.env.NODE_ENV === 'production') {
 
 const createWindow = async () => {
 
-	console.log(app.isPackaged, process.resourcesPath)
-	//  const RESOURCES_PATH = app.isPackaged
-	//    ? path.join(process.resourcesPath, 'assets')
-	//    : path.join(__dirname, '../assets')
-
-	//  const getAssetPath = (paths) => {
-	//    return path.join(RESOURCES_PATH, ...paths)
-	//  }
-
 	mainWindow = new BrowserWindow({
 		show: false,
 		width: 1024,
@@ -37,7 +28,7 @@ const createWindow = async () => {
 	})
 
 	const mainFile = url.format({
-		pathname: path.join(__dirname, '..', 'renderer', 'index.html'),
+		pathname: path.join(__dirname, '..', 'renderer', 'assets', 'index.html'),
 		protocol: 'file',
 		slashes: true
 	})
@@ -45,10 +36,7 @@ const createWindow = async () => {
 	mainWindow.loadURL(mainFile)
 	mainWindow.webContents.openDevTools();
 	ipcMain.on('ready', (event, who) => {
-		console.log('ready', who)
-		mainWindow.webContents.send("get_conf", conf)
 		mainWindow.show()
-
 	})
 
 	mainWindow.webContents.on('ready-to-show', async () => {
@@ -56,17 +44,7 @@ const createWindow = async () => {
 			throw new Error('"mainWindow" is not defined')
 		}
 
-		if (mainWindow) {
-			mainWindow.show()
-		}
-
 	})
-	process.on('SIGINT', function() {
-
-
-		mainWindow = null
- 	});
-
 
 	mainWindow.on('closed', () => {
 

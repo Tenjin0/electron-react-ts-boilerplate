@@ -5,9 +5,11 @@
   "main": "src/main/index.js",
   "scripts": {
     "postinstall": "npx cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dll.js",
-    "start:dev": "NODE_ENV=development START_MAIN=true node scripts/renderer.js",
+    "start": "NODE_ENV=development START_MAIN=true node scripts/renderer.js && npx pm2 logs --raw",
     "start:main": "npx cross-env NODE_ENV=development electron .",
     "start:renderer": "NODE_ENV=development npx webpack serve --config ./configs/webpack.config.renderer.dev.js",
+	"dist": "npx cross-env NODE_ENV=production webpack --config ./configs/webpack.config.renderer.prod.js",
+    "build": "npm run dist && electron-builder",
     "lint": "npx eslint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
