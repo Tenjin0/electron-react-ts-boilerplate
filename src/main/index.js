@@ -1,6 +1,6 @@
 const path = require('path')
 const url = require('url')
-const { app, BrowserWindow, dialog, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron')
 const log = require("electron-log")
 const pm2 = require('pm2');
 
@@ -34,29 +34,30 @@ const createWindow = async () => {
 	})
 
 	mainWindow.loadURL(mainFile)
-	mainWindow.webContents.openDevTools();
+
+
 	ipcMain.on('ready', (event, who) => {
-		mainWindow.show()
+		// Do things
+
+		mainWindow.webContents.openDevTools();
+		console.log(mainWindow.webContents.devToolsWebContents)
 	})
 
 	mainWindow.webContents.on('ready-to-show', async () => {
 		if (!mainWindow) {
 			throw new Error('"mainWindow" is not defined')
 		}
-
+		mainWindow.show()
+		console.log("ready to show")
 	})
 
-	mainWindow.on('closed', () => {
-
-		if (process.env.NODE_ENV === "development" && pm2Connected) {
-			pm2.delete('all')
-		}
-	})
 }
-
 app.on('window-all-closed', () => {
 	// Respect the OSX convention of having the application in memory even
 	// after all windows have been closed
+	if (process.env.NODE_ENV === "development" && pm2Connected) {
+		pm2.delete('all')
+	}
 	if (process.platform !== 'darwin') {
 		app.quit()
 	}
@@ -79,6 +80,19 @@ app.whenReady()
 		}
 	})
 
+})
+.then(() => {
+	globalShortcut.register('Control+Shift+I', () => {
+		// When the user presses Ctrl + Shift + I, this function will get called
+		// You can modify this function to do other things, but if you just want
+		// to disable the shortcut, you can just return false
+		if (mainWindow && mainWindow.isVisible()) {
+			mainWindow.webContents.openDevTools();
+			console.log(mainWindow.webContents)
+		}
+
+		return true;
+	});
 })
 .then(createWindow).catch(log.error)
 

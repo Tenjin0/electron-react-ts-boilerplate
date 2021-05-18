@@ -1,13 +1,11 @@
-var pm2 = require('pm2');
+const pm2 = require('pm2');
+
 pm2.connect(true, function(err) {
   if (err) {
     console.error(err);
     process.exit(2);
   }
 
-  pm2.list((err, list) => {
-    // console.log(err, list)
-  })
 
   pm2.start({
    		name: "electron renderer",
@@ -17,13 +15,18 @@ pm2.connect(true, function(err) {
 				"NODE_ENV": "development",
 			},
   }, function(err, apps) {
-		console.log(err)
 		if (err) throw err
-		pm2.disconnect();   // Disconnects from PM2
+		pm2.disconnect()
+		// process.on("SIGINT", () => {
+		// 	pm2.delete("all", (err) => {
+		// 		process.exit(0)
+		// 	})
+		// })
+
+
+
   });
 });
-
-
 
 	// {
 	// 	name: "electron main",
